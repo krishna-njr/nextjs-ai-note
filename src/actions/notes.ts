@@ -4,6 +4,7 @@ import { getUser } from "@/auth/server";
 import { prisma } from "@/db/prisma";
 import { handleError } from "@/lib/utils";
 import openai from "@/openai";
+import { Note } from "@prisma/client";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 // *************************************
@@ -75,7 +76,7 @@ export const askAiAboutNotesAction = async (
   });
 
   const formattedNotes = notes
-    .map((note) =>
+    .map((note: { text: string; createdAt: Date; updateAt: Date }) =>
       `
       Text: ${note.text}
       Created at:  ${note.createdAt}
